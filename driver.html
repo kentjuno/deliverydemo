@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Driver Dashboard</title>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Driver Dashboard</h1>
+        </header>
+
+        <div class="driver-stats" style="background: #f9f9f9; padding: 15px; margin: 20px 0; border-radius: 12px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+            <p style="font-weight: bold; font-size: 1.1em;">Completed Orders: <span id="completed-orders-count">0</span></p>
+            <p>Total Amount Received:</p>
+            <ul style="list-style-type: none; padding: 0;">
+                <li style="padding: 5px 0;">Cash: $<span id="total-cash">0.00</span></li>
+                <li style="padding: 5px 0;">E-transfer: $<span id="total-etransfer">0.00</span></li>
+            </ul>
+        </div>
+        
+        <main>
+            <section class="orders-section">
+                <h2>Assigned Orders</h2>
+                <div id="assigned-orders" class="order-list">
+                    <!-- Example Assigned Orders -->
+                    <div class="order-item" id="order-12345">
+                        <p>Order No: 12345</p>
+                        <p>Customer: John Doe</p>
+                        <p>Delivery Address: 123 Main St</p>
+                        <p>Product: Widget A (Quantity: 2)</p>
+                        <p>Price: $50.00</p>
+                        <p>Payment Method: Cash on Delivery</p>
+                        <p>Status: Assigned</p>
+                        <button onclick="viewOrderDetails('12345')">View Order</button>
+                        <button onclick="updateOrderStatus('12345', 'On My Way')">On My Way</button>
+                        <button onclick="updateOrderStatus('12345', 'Delivered')">Delivered</button>
+                    </div>
+                    <div class="order-item" id="order-12346">
+                        <p>Order No: 12346</p>
+                        <p>Customer: Jane Smith</p>
+                        <p>Delivery Address: 456 Elm St</p>
+                        <p>Product: Widget B (Quantity: 1)</p>
+                        <p>Price: $30.00</p>
+                        <p>Payment Method: E-transfer</p>
+                        <p>Status: Assigned</p>
+                        <button onclick="viewOrderDetails('12346')">View Order</button>
+                        <button onclick="updateOrderStatus('12346', 'On My Way')">On My Way</button>
+                        <button onclick="updateOrderStatus('12346', 'Delivered')">Delivered</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stock-section">
+                <h2>Current Stock</h2>
+                <div id="current-stock" class="stock-list">
+                    <div class="stock-item">
+                        <p>Product: Widget A</p>
+                        <p>Quantity: 10</p>
+                    </div>
+                    <div class="stock-item">
+                        <p>Product: Widget B</p>
+                        <p>Quantity: 5</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Order Details Modal -->
+        <div id="orderDetailsModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Order Details</h2>
+                <div id="orderDetailsContent">
+                    <!-- Order details will be dynamically added here -->
+                </div>
+                <button onclick="changePaymentMethod()">Change Payment Method</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Web App Demo</p>
+        </footer>
+    </div>
+
+    <script>
+        function viewOrderDetails(orderId) {
+            const modal = document.getElementById('orderDetailsModal');
+            const orderDetailsContent = document.getElementById('orderDetailsContent');
+
+            // Populate order details based on orderId
+            let orderDetails = '';
+            if (orderId === '12345') {
+                orderDetails = `
+                    <p>Order No: 12345</p>
+                    <p>Customer: John Doe</p>
+                    <p>Delivery Address: 123 Main St</p>
+                    <p>Product: Widget A (Quantity: 2)</p>
+                    <p>Price: $50.00</p>
+                    <p>Payment Method: <span id="paymentMethod-12345">Cash on Delivery</span></p>
+                    <p>Status: Assigned</p>
+                `;
+            } else if (orderId === '12346') {
+                orderDetails = `
+                    <p>Order No: 12346</p>
+                    <p>Customer: Jane Smith</p>
+                    <p>Delivery Address: 456 Elm St</p>
+                    <p>Product: Widget B (Quantity: 1)</p>
+                    <p>Price: $30.00</p>
+                    <p>Payment Method: <span id="paymentMethod-12346">E-transfer</span></p>
+                    <p>Status: Assigned</p>
+                `;
+            }
+
+            orderDetailsContent.innerHTML = orderDetails;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('orderDetailsModal');
+            modal.style.display = 'none';
+        }
+
+        function changePaymentMethod() {
+            const orderId = document.getElementById('orderDetailsContent').querySelector('p').textContent.split(': ')[1];
+            const paymentMethodElement = document.getElementById('paymentMethod-' + orderId);
+            const currentMethod = paymentMethodElement.textContent;
+            const newMethod = currentMethod === 'Cash on Delivery' ? 'E-transfer' : 'Cash on Delivery';
+            paymentMethodElement.textContent = newMethod;
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderDetailsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

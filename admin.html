@@ -1,0 +1,39 @@
+<!-- Administrator Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Administrator Dashboard</title>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Administrator Dashboard</h1>
+        </header>
+        
+        <main>
+            <section class="user-management-section">
+                <h2>User Management</h2>
+                <div class="user-list">
+                    <div class="user-item">
+                        <p>Username: dispatcher1 - Role: Dispatcher</p>
+                        <button onclick="editUser('dispatcher1')">Edit</button>
+                    </div>
+                    <div class="user-item">
+                        <p>Username: driver1 - Role: Driver</p>
+                        <button onclick="editUser('driver1')">Edit</button>
+                    </div>
+                </div>
+                <button onclick="addUser()">Add New User</button>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Web App Demo</p>
+        </footer>
+    </div>
+</body>
+</html>

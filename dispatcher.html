@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Dispatcher Dashboard</title>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Dispatcher Dashboard</h1>
+            <button onclick="openAddOrderModal()">Add New Order</button>
+        </header>
+        
+        <main>
+            <section class="orders-section">
+                <h2>Dispatching Orders</h2>
+                <div id="dispatching-orders" class="order-list">
+                    <!-- Example Dispatching Orders -->
+                    <div class="order-item" id="order-12345">
+                        <p>Order No: 12345</p>
+                        <p>Customer: John Doe</p>
+                        <p>Status: Dispatching</p>
+                        <button onclick="viewOrderDetails('12345')">View Order</button>
+                        <button onclick="updateOrderStatus('12345', 'Completed')">Mark as Completed</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="orders-section">
+                <h2>Completed Orders</h2>
+                <div id="completed-orders" class="order-list">
+                    <!-- Example Completed Orders -->
+                    <div class="order-item" id="order-12346">
+                        <p>Order No: 12346</p>
+                        <p>Customer: Jane Smith</p>
+                        <p>Status: Completed</p>
+                    </div>
+                </div>
+            </section>
+        
+            <!-- View Order Modal -->
+            <div id="viewOrderModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeViewOrderModal()">&times;</span>
+                    <h2>Order Details</h2>
+                    <div id="orderDetailsContent">
+                        <!-- Order details will be dynamically added here -->
+                    </div>
+                    <button onclick="assignDriverToOrder()">Assign Driver</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Add Order Modal -->
+        <div id="addOrderModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeAddOrderModal()">&times;</span>
+                <h2>Add New Order</h2>
+                <form id="addOrderForm">
+                    <div class="form-group">
+                        <label for="store">Store:</label>
+                        <select id="store" name="store" required>
+                            <option value="Store A">Store A</option>
+                            <option value="Store B">Store B</option>
+                            <option value="Store C">Store C</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="driver">Driver:</label>
+                        <select id="driver" name="driver" required>
+                            <option value="Driver 1">Driver 1</option>
+                            <option value="Driver 2">Driver 2</option>
+                            <option value="Driver 3">Driver 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number:</label>
+                        <input type="text" id="orderNumber" name="orderNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerName">Customer Name:</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address:</label>
+                        <input type="text" id="deliveryAddress" name="deliveryAddress" required>
+                    </div>
+                    <div id="productsContainer">
+                        <div class="product-group">
+                            <div class="form-group">
+                                <label for="product">Product:</label>
+                                <input type="text" name="product" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addProduct()">Add Another Product</button>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method:</label>
+                        <select id="paymentMethod" name="paymentMethod">
+                            <option value="Cash on Delivery">Cash on Delivery</option>
+                            <option value="E-transfer">E-transfer</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="submitOrder()">Add Order</button>
+                </form>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Web App Demo</p>
+        </footer>
+    </div>
+
+    <script>
+        function openAddOrderModal() {
+            const modal = document.getElementById('addOrderModal');
+            modal.style.display = 'block';
+        }
+
+        function closeAddOrderModal() {
+            const modal = document.getElementById('addOrderModal');
+            modal.style.display = 'none';
+        }
+
+        function addProduct() {
+            const productsContainer = document.getElementById('productsContainer');
+            const newProductGroup = document.createElement('div');
+            newProductGroup.classList.add('product-group');
+            newProductGroup.innerHTML = `
+                <div class="form-group">
+                    <label for="product">Product:</label>
+                    <input type="text" name="product" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" required>
+                </div>
+            `;
+            productsContainer.appendChild(newProductGroup);
+        }
+
+        function viewOrderDetails(orderId) {
+            const modal = document.getElementById('viewOrderModal');
+            const orderDetailsContent = document.getElementById('orderDetailsContent');
+            
+            // Populate order details based on orderId (dummy data for demonstration)
+            let orderDetails = '';
+            if (orderId === '12345') {
+                orderDetails = `
+                    <p>Order No: 12345</p>
+                    <p>Customer: John Doe</p>
+                    <p>Store: Store A</p>
+                    <p>Driver: Driver 1</p>
+                    <p>Delivery Address: 123 Main St</p>
+                    <p>Product: Widget A (Quantity: 2)</p>
+                    <p>Payment Method: Cash on Delivery</p>
+                    <p>Status: Dispatching</p>
+                `;
+            }
+            
+            orderDetailsContent.innerHTML = orderDetails;
+            modal.style.display = 'block';
+        }
+
+        function closeViewOrderModal() {
+            const modal = document.getElementById('viewOrderModal');
+            modal.style.display = 'none';
+        }
+
+        function assignDriverToOrder() {
+            alert('Driver has been assigned to the order.');
+        }
+
+        
+        function submitOrder() {
+            // Collect order details and add to dispatching orders list
+            const orderNumber = document.getElementById('orderNumber').value;
+            const customerName = document.getElementById('customerName').value;
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            const store = document.getElementById('store').value;
+            const driver = document.getElementById('driver').value;
+            const productGroups = document.querySelectorAll('.product-group');
+            let productsList = '';
+            productGroups.forEach(group => {
+                const product = group.querySelector('input[name="product"]').value;
+                const quantity = group.querySelector('input[name="quantity"]').value;
+                productsList += `<p>Product: ${product} (Quantity: ${quantity})</p>`;
+            });
+
+            const paymentMethod = document.getElementById('paymentMethod').value;
+
+            const newOrder = document.createElement('div');
+            newOrder.classList.add('order-item');
+            newOrder.innerHTML = `
+                <p>Store: ${store}</p>
+                <p>Driver: ${driver}</p>
+                <p>Order No: ${orderNumber}</p>
+                <p>Customer: ${customerName}</p>
+                <p>Delivery Address: ${deliveryAddress}</p>
+                ${productsList}
+                <p>Payment Method: ${paymentMethod}</p>
+                <p>Status: Dispatching</p>
+                <button onclick="viewOrderDetails('${orderNumber}')">View Order</button>
+                <button onclick="updateOrderStatus('${orderNumber}', 'Completed')">Mark as Completed</button>
+            `;
+
+            document.getElementById('dispatching-orders').appendChild(newOrder);
+            closeAddOrderModal();
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const addOrderModal = document.getElementById('addOrderModal');
+            const viewOrderModal = document.getElementById('viewOrderModal');
+            if (event.target === addOrderModal) {
+                closeAddOrderModal();
+            } else if (event.target === viewOrderModal) {
+                closeViewOrderModal();
+            }
+            const modal = document.getElementById('addOrderModal');
+            if (event.target === modal) {
+                closeAddOrderModal();
+            }
+        };
+    </script>
+</body>
+</html>
